@@ -270,28 +270,37 @@ function toggleLike() {
             'Accept': 'application/json'
         }
     })
-    .then(response => response.json())
+    .then(response => {
+        if (!response.ok) {
+            throw new Error('Erreur HTTP: ' + response.status);
+        }
+        return response.json();
+    })
     .then(data => {
-        // Mettre à jour le compteur
-        likeCount.textContent = data.likes_count;
-        
-        // Changer le style du bouton
-        if (data.liked) {
-            btn.classList.remove('btn-outline-danger');
-            btn.classList.add('btn-danger');
-            likeText.textContent = 'Vous aimez cet article';
+        if (data.success) {
+            // Mettre à jour le compteur
+            likeCount.textContent = data.likes_count;
+            
+            // Changer le style du bouton
+            if (data.liked) {
+                btn.classList.remove('btn-outline-danger');
+                btn.classList.add('btn-danger');
+                likeText.textContent = 'Vous aimez cet article';
+            } else {
+                btn.classList.remove('btn-danger');
+                btn.classList.add('btn-outline-danger');
+                likeText.textContent = "J'aime cet article";
+            }
         } else {
-            btn.classList.remove('btn-danger');
-            btn.classList.add('btn-outline-danger');
-            likeText.textContent = "J'aime cet article";
+            throw new Error('Réponse invalide du serveur');
         }
         
         btn.disabled = false;
     })
     .catch(error => {
-        console.error('Erreur:', error);
+        console.error('Erreur complète:', error);
         btn.disabled = false;
-        alert('Une erreur est survenue');
+        alert('Erreur: ' + error.message + '. Vérifiez la console (F12) pour plus de détails.');
     });
 }
 </script>
