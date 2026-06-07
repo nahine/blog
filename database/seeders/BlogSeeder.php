@@ -25,18 +25,18 @@ class BlogSeeder extends Seeder
         // Créer quelques utilisateurs
         $users = [];
         $users[] = User::create([
-            'name' => 'Jean Dupont',
-            'email' => 'jean@example.com',
+            'name' => 'GBABLI Nahine',
+            'email' => 'nahine@example.com',
             'password' => bcrypt('password'),
         ]);
         $users[] = User::create([
-            'name' => 'Marie Martin',
-            'email' => 'marie@example.com',
+            'name' => 'Sophie Leclerc',
+            'email' => 'sophie@example.com',
             'password' => bcrypt('password'),
         ]);
         $users[] = User::create([
-            'name' => 'Pierre Durand',
-            'email' => 'pierre@example.com',
+            'name' => 'Lucas Bernard',
+            'email' => 'lucas@example.com',
             'password' => bcrypt('password'),
         ]);
 
