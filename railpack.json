@@ -1,1 +1,14 @@
-{"$schema":"https://railpack.io/schema/railpack.json","providers":{"php":{"version":"8.4"}}}
+{
+  "$schema": "https://railpack.io/schema/railpack.json",
+  "providers": {
+    "php": {
+      "version": "8.4"
+    }
+  },
+  "build": {
+    "steps": {
+      "view:cache": false
+    }
+  }
+}
+
