@@ -254,7 +254,7 @@ function toggleReply(commentId) {
     }
 }
 
-// Toggle like avec AJAX (pas de rechargement!)
+// Toggle like avec AJAX
 function toggleLike() {
     const btn = document.getElementById('like-btn');
     const likeText = document.getElementById('like-text');
@@ -270,37 +270,28 @@ function toggleLike() {
             'Accept': 'application/json'
         }
     })
-    .then(response => {
-        if (!response.ok) {
-            throw new Error('Erreur HTTP: ' + response.status);
-        }
-        return response.json();
-    })
+    .then(response => response.json())
     .then(data => {
-        if (data.success) {
-            // Mettre à jour le compteur
-            likeCount.textContent = data.likes_count;
-            
-            // Changer le style du bouton
-            if (data.liked) {
-                btn.classList.remove('btn-outline-danger');
-                btn.classList.add('btn-danger');
-                likeText.textContent = 'Vous aimez cet article';
-            } else {
-                btn.classList.remove('btn-danger');
-                btn.classList.add('btn-outline-danger');
-                likeText.textContent = "J'aime cet article";
-            }
+        // Mettre à jour le compteur
+        likeCount.textContent = data.likes_count;
+        
+        // Changer le style du bouton
+        if (data.liked) {
+            btn.classList.remove('btn-outline-danger');
+            btn.classList.add('btn-danger');
+            likeText.textContent = 'Vous aimez cet article';
         } else {
-            throw new Error('Réponse invalide du serveur');
+            btn.classList.remove('btn-danger');
+            btn.classList.add('btn-outline-danger');
+            likeText.textContent = "J'aime cet article";
         }
         
         btn.disabled = false;
     })
     .catch(error => {
-        console.error('Erreur complète:', error);
+        console.error('Erreur:', error);
         btn.disabled = false;
-        alert('Erreur: ' + error.message + '. Vérifiez la console (F12) pour plus de détails.');
+        alert('Une erreur est survenue');
     });
 }
 </script>
