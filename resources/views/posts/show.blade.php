@@ -43,11 +43,14 @@
             <div class="card bg-light mb-5" id="like-section">
                 <div class="card-body text-center">
                     @auth
-                    <button type="button" onclick="toggleLike()" class="btn btn-lg {{ $post->isLikedBy(auth()->user()) ? 'btn-danger' : 'btn-outline-danger' }}" id="like-btn">
-                        <i class="bi bi-heart-fill"></i>
-                        <span id="like-text">{{ $post->isLikedBy(auth()->user()) ? 'Vous aimez cet article' : 'J\'aime cet article' }}</span>
-                        <span class="badge bg-white text-dark ms-2" id="like-count">{{ $post->likes_count }}</span>
-                    </button>
+                    <form method="POST" action="{{ route('posts.like', $post) }}">
+                        @csrf
+                        <button type="submit" class="btn btn-lg {{ $post->isLikedBy(auth()->user()) ? 'btn-danger' : 'btn-outline-danger' }}">
+                            <i class="bi bi-heart-fill"></i>
+                            <span>{{ $post->isLikedBy(auth()->user()) ? 'Vous aimez cet article' : 'J\'aime cet article' }}</span>
+                            <span class="badge bg-white text-dark ms-2">{{ $post->likes_count }}</span>
+                        </button>
+                    </form>
                     @else
                     <p class="mb-3">
                         <i class="bi bi-heart-fill text-danger fs-3"></i>
@@ -252,47 +255,6 @@ function toggleReply(commentId) {
     } else {
         replyForm.style.display = 'none';
     }
-}
-
-// Toggle like avec AJAX
-function toggleLike() {
-    const btn = document.getElementById('like-btn');
-    const likeText = document.getElementById('like-text');
-    const likeCount = document.getElementById('like-count');
-    
-    btn.disabled = true;
-    
-    fetch('{{ route("posts.like", $post) }}', {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json',
-            'X-CSRF-TOKEN': '{{ csrf_token() }}',
-            'Accept': 'application/json'
-        }
-    })
-    .then(response => response.json())
-    .then(data => {
-        // Mettre à jour le compteur
-        likeCount.textContent = data.likes_count;
-        
-        // Changer le style du bouton
-        if (data.liked) {
-            btn.classList.remove('btn-outline-danger');
-            btn.classList.add('btn-danger');
-            likeText.textContent = 'Vous aimez cet article';
-        } else {
-            btn.classList.remove('btn-danger');
-            btn.classList.add('btn-outline-danger');
-            likeText.textContent = "J'aime cet article";
-        }
-        
-        btn.disabled = false;
-    })
-    .catch(error => {
-        console.error('Erreur:', error);
-        btn.disabled = false;
-        alert('Une erreur est survenue');
-    });
 }
 </script>
 @endsection
