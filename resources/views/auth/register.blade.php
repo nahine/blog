@@ -22,7 +22,7 @@
                             class="form-control form-control-lg @error('name') is-invalid @enderror" 
                             name="name" value="{{ old('name') }}" 
                             required autofocus autocomplete="name"
-                            placeholder="Jean Dupont">
+                            placeholder="GBABLI Nahine">
                         @error('name')
                             <div class="invalid-feedback">{{ $message }}</div>
                         @enderror
