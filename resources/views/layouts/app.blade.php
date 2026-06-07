@@ -40,7 +40,7 @@
         
         @guest
         <!-- Boutons visibles TOUJOURS pour les invités -->
-        <div class="d-flex gap-2 order-lg-1">
+        <div class="d-flex gap-2 ms-auto order-lg-2">
             <a class="btn btn-sm btn-outline-light" href="{{ route('login') }}">
                 <i class="bi bi-box-arrow-in-right"></i> Connexion
             </a>
@@ -50,8 +50,8 @@
         </div>
         @else
         <!-- Utilisateur connecté - Bouton déconnexion visible -->
-        <div class="d-flex gap-2 order-lg-1 align-items-center">
-            <span class="text-light d-none d-lg-inline">
+        <div class="d-flex gap-2 ms-auto order-lg-2 align-items-center">
+            <span class="text-light d-none d-md-inline">
                 <i class="bi bi-person-circle"></i> {{ auth()->user()->name }}
             </span>
             @if(auth()->user()->isAdmin())
@@ -59,7 +59,7 @@
                     <i class="bi bi-gear"></i> Admin
                 </a>
             @endif
-            <form method="POST" action="{{ route('logout') }}" class="d-inline">
+            <form method="POST" action="{{ route('logout') }}" class="d-inline m-0">
                 @csrf
                 <button class="btn btn-sm btn-danger">
                     <i class="bi bi-box-arrow-right"></i> Déconnexion
