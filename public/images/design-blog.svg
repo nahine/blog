@@ -1,0 +1,15 @@
+<svg width="800" height="400" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="designGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#fa709a;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#fee140;stop-opacity:1" />
+    </linearGradient>
+  </defs>
+  <rect width="800" height="400" fill="url(#designGrad)"/>
+  <polygon points="150,100 200,180 100,180" fill="#ffffff" opacity="0.15"/>
+  <polygon points="650,260 700,340 600,340" fill="#ffffff" opacity="0.15"/>
+  <circle cx="700" cy="100" r="35" fill="#ffffff" opacity="0.1"/>
+  <rect x="100" y="300" width="50" height="50" fill="#ffffff" opacity="0.12" rx="5"/>
+  <text x="400" y="180" font-family="Arial, sans-serif" font-size="48" font-weight="bold" fill="#ffffff" text-anchor="middle">Design</text>
+  <text x="400" y="230" font-family="Arial, sans-serif" font-size="24" fill="#ffffff" opacity="0.9" text-anchor="middle">Créativité &amp; UI/UX</text>
+</svg>
