@@ -26,9 +26,10 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        // Forcer HTTPS en production
+        // Forcer HTTPS + domaine public en production (Railway derrière un proxy).
         if ($this->app->environment('production')) {
             URL::forceScheme('https');
+            URL::forceRootUrl(config('app.url'));
         }
 
         // Transport email Brevo via API HTTP (port 443) — nécessaire sur Railway

@@ -17,6 +17,10 @@ return Application::configure(basePath: dirname(__DIR__))
          $middleware->alias([
         'admin' => \App\Http\Middleware\AdminMiddleware::class,
            ]);
+
+         // Railway (FrankenPHP/Caddy) : sans proxies de confiance, les liens signés
+         // (vérification email, reset mot de passe) échouent avec "Invalid signature".
+         $middleware->trustProxies(at: '*');
      })	
 
 
