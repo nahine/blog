@@ -6,7 +6,7 @@ use Illuminate\Database\Seeder;
 
 class DatabaseSeeder extends Seeder {
     public function run(): void {
-        // Appeler le BlogSeeder qui contient tout
-        $this->call(BlogSeeder::class);
+        // Contenu officiel du blog (admin + articles avec photos)
+        $this->call(FreshContentSeeder::class);
     }
 }

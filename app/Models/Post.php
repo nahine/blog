@@ -45,7 +45,12 @@ class Post extends Model {
         if (!$this->image) {
             return asset('images/default-post.svg');
         }
-        
+
+        // Photo externe (ex: Unsplash) : on l'utilise telle quelle
+        if (str_starts_with($this->image, 'http://') || str_starts_with($this->image, 'https://')) {
+            return $this->image;
+        }
+
         // Si l'image est dans public/images/ (fichiers SVG par défaut)
         if (str_starts_with($this->image, 'images/')) {
             return asset($this->image);

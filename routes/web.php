@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\Artisan;
 use App\Http\Controllers\PostController;
 use App\Http\Controllers\CommentController;
 use App\Http\Controllers\LikeController;
@@ -35,5 +36,24 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(fun
     Route::get('comments', [Admin\CommentController::class, 'index'])->name('comments.index');
     Route::delete('comments/{comment}', [Admin\CommentController::class, 'destroy'])->name('comments.destroy');
 });
+
+// Route temporaire et protégée pour réinitialiser le contenu en production.
+// Active uniquement si la variable d'environnement SETUP_KEY est définie.
+// Visiter /__setup/VOTRE_CLE une seule fois, puis SUPPRIMER SETUP_KEY.
+Route::get('/__setup/{key}', function (string $key) {
+    abort_unless(filled(config('app.setup_key')) && hash_equals((string) config('app.setup_key'), $key), 404);
+
+    Artisan::call('db:seed', [
+        '--class' => 'Database\\Seeders\\FreshContentSeeder',
+        '--force' => true,
+    ]);
+
+    return response(
+        "✅ Contenu réinitialisé avec succès.\n\n"
+        . "Admin : combarinahine@gmail.com / password\n\n"
+        . "⚠️ IMPORTANT : supprimez maintenant la variable SETUP_KEY dans Railway pour désactiver cette page.",
+        200
+    )->header('Content-Type', 'text/plain; charset=utf-8');
+})->name('setup');
 
 require __DIR__.'/auth.php';

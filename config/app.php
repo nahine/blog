@@ -15,6 +15,10 @@ return [
 
     'name' => env('APP_NAME', 'Laravel'),
 
+    // Clé secrète temporaire pour réinitialiser le contenu via /__setup/{clé}.
+    // Laisser vide (ne pas définir SETUP_KEY) désactive complètement la route.
+    'setup_key' => env('SETUP_KEY'),
+
     /*
     |--------------------------------------------------------------------------
     | Application Environment
