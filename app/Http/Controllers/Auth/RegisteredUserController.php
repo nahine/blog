@@ -42,7 +42,13 @@ class RegisteredUserController extends Controller
             'password' => Hash::make($request->password),
         ]);
 
-        event(new Registered($user));
+        // Envoi de l'email de vérification : ne doit jamais faire échouer l'inscription
+        // (un SMTP indisponible/lent ne doit pas provoquer une erreur 500).
+        try {
+            event(new Registered($user));
+        } catch (\Throwable $e) {
+            report($e);
+        }
 
         Auth::login($user);
 

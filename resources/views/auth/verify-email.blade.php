@@ -18,6 +18,10 @@
                     <div class="alert alert-success" role="alert">
                         <i class="bi bi-check-circle"></i> Un nouveau lien de vérification a été envoyé à votre adresse email.
                     </div>
+                @elseif (session('status') == 'verification-link-error')
+                    <div class="alert alert-warning" role="alert">
+                        <i class="bi bi-exclamation-triangle"></i> L'envoi de l'email a échoué pour le moment. Veuillez réessayer dans quelques instants.
+                    </div>
                 @endif
 
                 <div class="d-flex flex-column gap-2 mt-4">
