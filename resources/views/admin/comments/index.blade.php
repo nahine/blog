@@ -11,13 +11,13 @@
     <tbody>
         @forelse($comments as $comment)
         <tr>
-            <td>{{ $comment->user->name }}</td>
+            <td>{{ $comment->user->nom }}</td>
             <td>
                 <a href="{{ route('posts.show', $comment->post->slug) }}" target="_blank">
-                    {{ Str::limit($comment->post->title, 40) }}
+                    {{ Str::limit($comment->post->titre, 40) }}
                 </a>
             </td>
-            <td>{{ Str::limit($comment->body, 80) }}</td>
+            <td>{{ Str::limit($comment->contenu, 80) }}</td>
             <td>{{ $comment->created_at->format('d/m/Y H:i') }}</td>
             <td>
                 <form method="POST" action="{{ route('admin.comments.destroy', $comment) }}"

@@ -6,38 +6,40 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Storage;
 
 class Post extends Model {
+    protected $table = 'articles';
+
     protected $fillable = [
-        'title', 
-        'slug', 
-        'content', 
-        'excerpt',
+        'titre',
+        'slug',
+        'contenu',
+        'extrait',
         'image',
-        'category_id', 
-        'user_id', 
-        'published_at'
+        'categorie_id',
+        'utilisateur_id',
+        'publie_le'
     ];
 
     protected $casts = [
-        'published_at' => 'datetime'
+        'publie_le' => 'datetime'
     ];
 
     protected $appends = ['image_url', 'reading_time'];
 
     // Relations
     public function user() {
-        return $this->belongsTo(User::class);
+        return $this->belongsTo(User::class, 'utilisateur_id');
     }
 
     public function category() {
-        return $this->belongsTo(Category::class);
+        return $this->belongsTo(Category::class, 'categorie_id');
     }
 
     public function comments() {
-        return $this->hasMany(Comment::class)->whereNull('parent_id')->with('replies.user')->latest();
+        return $this->hasMany(Comment::class, 'article_id')->whereNull('parent_id')->with('replies.user')->latest();
     }
 
     public function likes() {
-        return $this->hasMany(Like::class);
+        return $this->hasMany(Like::class, 'article_id');
     }
 
     // Accesseurs
@@ -63,29 +65,29 @@ class Post extends Model {
     }
 
     public function getReadingTimeAttribute(): int {
-        $words = str_word_count(strip_tags($this->content));
+        $words = str_word_count(strip_tags($this->contenu));
         return max(1, ceil($words / 200)); // 200 mots par minute
     }
 
-    public function getExcerptAttribute($value): string {
-        return $value ?? \Illuminate\Support\Str::limit(strip_tags($this->content), 150);
+    public function getExtraitAttribute($value): string {
+        return $value ?? \Illuminate\Support\Str::limit(strip_tags($this->contenu), 150);
     }
 
     // Méthodes
     public function isLikedBy(?User $user): bool {
         if (!$user) return false;
-        return $this->likes()->where('user_id', $user->id)->exists();
+        return $this->likes()->where('utilisateur_id', $user->id)->exists();
     }
 
     public function isPublished(): bool {
-        return $this->published_at !== null && $this->published_at->isPast();
+        return $this->publie_le !== null && $this->publie_le->isPast();
     }
 
     // Scopes
     public function scopePublished($query) {
-        return $query->whereNotNull('published_at')
-                    ->where('published_at', '<=', now())
-                    ->orderBy('published_at', 'desc');
+        return $query->whereNotNull('publie_le')
+                    ->where('publie_le', '<=', now())
+                    ->orderBy('publie_le', 'desc');
     }
 
     public function scopeWithCounts($query) {

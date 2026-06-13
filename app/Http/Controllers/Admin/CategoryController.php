@@ -19,9 +19,9 @@ class CategoryController extends Controller {
     }
 
     public function store(Request $request) {
-        $request->validate(['name' => 'required|max:100|unique:categories']);
+        $request->validate(['name' => 'required|max:100|unique:categories,nom']);
         Category::create([
-            'name' => $request->name,
+            'nom'  => $request->name,
             'slug' => Str::slug($request->name),
         ]);
         return redirect()->route('admin.categories.index')->with('success', 'Catégorie créée.');
@@ -32,9 +32,9 @@ class CategoryController extends Controller {
     }
 
     public function update(Request $request, Category $category) {
-        $request->validate(['name' => 'required|max:100|unique:categories,name,' . $category->id]);
+        $request->validate(['name' => 'required|max:100|unique:categories,nom,' . $category->id]);
         $category->update([
-            'name' => $request->name,
+            'nom'  => $request->name,
             'slug' => Str::slug($request->name),
         ]);
         return redirect()->route('admin.categories.index')->with('success', 'Catégorie mise à jour.');

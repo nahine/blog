@@ -14,7 +14,7 @@
     <tbody>
         @forelse($categories as $cat)
         <tr>
-            <td>{{ $cat->name }}</td>
+            <td>{{ $cat->nom }}</td>
             <td><code>{{ $cat->slug }}</code></td>
             <td>{{ $cat->posts_count }}</td>
             <td>

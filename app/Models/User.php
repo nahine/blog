@@ -8,7 +8,9 @@ use Illuminate\Notifications\Notifiable;
 class User extends Authenticatable {
     use Notifiable;
 
-    protected $fillable = ['name', 'email', 'password', 'role'];
+    protected $table = 'utilisateurs';
+
+    protected $fillable = ['nom', 'email', 'password', 'role'];
 
     protected $hidden = ['password', 'remember_token'];
 
@@ -19,14 +21,14 @@ class User extends Authenticatable {
     }
 
     public function posts() {
-        return $this->hasMany(Post::class);
+        return $this->hasMany(Post::class, 'utilisateur_id');
     }
 
     public function comments() {
-        return $this->hasMany(Comment::class);
+        return $this->hasMany(Comment::class, 'utilisateur_id');
     }
 
     public function likes() {
-        return $this->hasMany(Like::class);
+        return $this->hasMany(Like::class, 'utilisateur_id');
     }
 }

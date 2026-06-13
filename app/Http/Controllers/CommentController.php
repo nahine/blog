@@ -12,8 +12,8 @@ class CommentController extends Controller {
         $request->validate(['body' => 'required|min:2|max:1000']);
 
         $comment = $post->comments()->create([
-            'user_id' => auth()->id(),
-            'body'    => $request->body,
+            'utilisateur_id' => auth()->id(),
+            'contenu'        => $request->body,
         ]);
 
         if ($request->wantsJson() || $request->ajax()) {
@@ -21,7 +21,7 @@ class CommentController extends Controller {
             return response()->json([
                 'success'        => true,
                 'message'        => 'Commentaire publié avec succès !',
-                'comments_count' => Comment::where('post_id', $post->id)->whereNull('parent_id')->count(),
+                'comments_count' => Comment::where('article_id', $post->id)->whereNull('parent_id')->count(),
                 'html'           => view('posts._comment', ['comment' => $comment])->render(),
             ]);
         }
@@ -33,10 +33,10 @@ class CommentController extends Controller {
         $request->validate(['body' => 'required|min:2|max:1000']);
 
         $reply = Comment::create([
-            'post_id'   => $comment->post_id,
-            'user_id'   => auth()->id(),
-            'parent_id' => $comment->id,
-            'body'      => $request->body,
+            'article_id'     => $comment->article_id,
+            'utilisateur_id' => auth()->id(),
+            'parent_id'      => $comment->id,
+            'contenu'        => $request->body,
         ]);
 
         if ($request->wantsJson() || $request->ajax()) {
@@ -44,7 +44,7 @@ class CommentController extends Controller {
             return response()->json([
                 'success'        => true,
                 'message'        => 'Réponse publiée avec succès !',
-                'comments_count' => Comment::where('post_id', $comment->post_id)->whereNull('parent_id')->count(),
+                'comments_count' => Comment::where('article_id', $comment->article_id)->whereNull('parent_id')->count(),
                 'html'           => view('posts._reply', ['reply' => $reply])->render(),
             ]);
         }

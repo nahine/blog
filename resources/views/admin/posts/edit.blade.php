@@ -3,7 +3,7 @@
 
 @section('content')
 <div class="d-flex justify-content-between align-items-center mb-4">
-    <h3 class="mb-0">Modifier : {{ $post->title }}</h3>
+    <h3 class="mb-0">Modifier : {{ $post->titre }}</h3>
     <a href="{{ route('admin.posts.index') }}" class="btn btn-outline-secondary">
         <i class="bi bi-arrow-left"></i> Retour
     </a>
@@ -19,21 +19,21 @@
                     <div class="mb-3">
                         <label class="form-label fw-bold">Titre *</label>
                         <input type="text" name="title" class="form-control @error('title') is-invalid @enderror"
-                            value="{{ old('title', $post->title) }}" required>
+                            value="{{ old('title', $post->titre) }}" required>
                         @error('title') <div class="invalid-feedback">{{ $message }}</div> @enderror
                     </div>
 
                     <div class="mb-3">
                         <label class="form-label fw-bold">Extrait (optionnel)</label>
                         <textarea name="excerpt" rows="2" class="form-control @error('excerpt') is-invalid @enderror" 
-                            placeholder="Court résumé de l'article (max 500 caractères)">{{ old('excerpt', $post->excerpt) }}</textarea>
+                            placeholder="Court résumé de l'article (max 500 caractères)">{{ old('excerpt', $post->extrait) }}</textarea>
                         @error('excerpt') <div class="invalid-feedback">{{ $message }}</div> @enderror
                     </div>
 
                     <div class="mb-3">
                         <label class="form-label fw-bold">Contenu *</label>
                         <textarea name="content" rows="15"
-                            class="form-control @error('content') is-invalid @enderror" required>{{ old('content', $post->content) }}</textarea>
+                            class="form-control @error('content') is-invalid @enderror" required>{{ old('content', $post->contenu) }}</textarea>
                         @error('content') <div class="invalid-feedback">{{ $message }}</div> @enderror
                     </div>
                 </div>
@@ -65,8 +65,8 @@
                         <select name="category_id" class="form-select @error('category_id') is-invalid @enderror" required>
                             @foreach($categories as $cat)
                                 <option value="{{ $cat->id }}"
-                                    {{ old('category_id', $post->category_id) == $cat->id ? 'selected' : '' }}>
-                                    {{ $cat->name }}
+                                    {{ old('category_id', $post->categorie_id) == $cat->id ? 'selected' : '' }}>
+                                    {{ $cat->nom }}
                                 </option>
                             @endforeach
                         </select>
@@ -83,8 +83,8 @@
                                     </label>
                                 </div>
                                 <small class="text-muted">
-                                    @if($post->published_at)
-                                        Publié le {{ $post->published_at->format('d/m/Y à H:i') }}
+                                    @if($post->publie_le)
+                                        Publié le {{ $post->publie_le->format('d/m/Y à H:i') }}
                                     @else
                                         Non publié
                                     @endif

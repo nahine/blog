@@ -41,14 +41,14 @@ class PostController extends Controller {
         }
 
         Post::create([
-            'title'        => $validated['title'],
-            'slug'         => Str::slug($validated['title']) . '-' . uniqid(),
-            'content'      => $validated['content'],
-            'excerpt'      => $validated['excerpt'] ?? null,
-            'image'        => $imagePath,
-            'category_id'  => $validated['category_id'],
-            'user_id'      => auth()->id(),
-            'published_at' => $request->has('publish') ? now() : null,
+            'titre'          => $validated['title'],
+            'slug'           => Str::slug($validated['title']) . '-' . uniqid(),
+            'contenu'        => $validated['content'],
+            'extrait'        => $validated['excerpt'] ?? null,
+            'image'          => $imagePath,
+            'categorie_id'   => $validated['category_id'],
+            'utilisateur_id' => auth()->id(),
+            'publie_le'      => $request->has('publish') ? now() : null,
         ]);
 
         return redirect()->route('admin.posts.index')
@@ -79,12 +79,12 @@ class PostController extends Controller {
         }
 
         $post->update([
-            'title'        => $validated['title'],
-            'content'      => $validated['content'],
-            'excerpt'      => $validated['excerpt'] ?? $post->excerpt,
+            'titre'        => $validated['title'],
+            'contenu'      => $validated['content'],
+            'extrait'      => $validated['excerpt'] ?? $post->extrait,
             'image'        => $validated['image'] ?? $post->image,
-            'category_id'  => $validated['category_id'],
-            'published_at' => $request->has('publish') ? ($post->published_at ?? now()) : null,
+            'categorie_id' => $validated['category_id'],
+            'publie_le'    => $request->has('publish') ? ($post->publie_le ?? now()) : null,
         ]);
 
         return redirect()->route('admin.posts.index')

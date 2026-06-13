@@ -9,8 +9,8 @@ use Illuminate\Http\Request;
 class LikeController extends Controller {
 
     public function toggle(Request $request, Post $post) {
-        $existing = Like::where('user_id', auth()->id())
-                        ->where('post_id', $post->id)
+        $existing = Like::where('utilisateur_id', auth()->id())
+                        ->where('article_id', $post->id)
                         ->first();
 
         $liked = false;
@@ -19,8 +19,8 @@ class LikeController extends Controller {
             $liked = false;
         } else {
             Like::create([
-                'user_id' => auth()->id(),
-                'post_id' => $post->id,
+                'utilisateur_id' => auth()->id(),
+                'article_id'     => $post->id,
             ]);
             $liked = true;
         }

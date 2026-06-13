@@ -56,7 +56,7 @@
                     </a>
                 @else
                     <span class="user-chip">
-                        <i class="bi bi-person-circle"></i> {{ auth()->user()->name }}
+                        <i class="bi bi-person-circle"></i> {{ auth()->user()->nom }}
                     </span>
                     <form method="POST" action="{{ route('logout') }}" class="m-0">
                         @csrf
@@ -91,7 +91,7 @@
                 <ul class="list-unstyled d-flex flex-column gap-2 mb-0">
                     <li><a href="{{ route('home') }}">Accueil</a></li>
                     @foreach(\App\Models\Category::limit(4)->get() as $cat)
-                    <li><a href="{{ route('categories.show', $cat->slug) }}">{{ $cat->name }}</a></li>
+                    <li><a href="{{ route('categories.show', $cat->slug) }}">{{ $cat->nom }}</a></li>
                     @endforeach
                 </ul>
             </div>

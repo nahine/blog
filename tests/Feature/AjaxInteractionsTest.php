@@ -16,22 +16,22 @@ class AjaxInteractionsTest extends TestCase
     private function makePost(): Post
     {
         $user = User::create([
-            'name' => 'Test User',
+            'nom' => 'Test User',
             'email' => 'test@example.com',
             'password' => 'password',
             'role' => 'user',
         ]);
 
-        $category = Category::create(['name' => 'Tech', 'slug' => 'tech']);
+        $category = Category::create(['nom' => 'Tech', 'slug' => 'tech']);
 
         return Post::create([
-            'title' => 'Article de test',
+            'titre' => 'Article de test',
             'slug' => 'article-de-test',
-            'content' => 'Contenu de test pour la page.',
-            'excerpt' => 'Extrait',
-            'category_id' => $category->id,
-            'user_id' => $user->id,
-            'published_at' => now()->subDay(),
+            'contenu' => 'Contenu de test pour la page.',
+            'extrait' => 'Extrait',
+            'categorie_id' => $category->id,
+            'utilisateur_id' => $user->id,
+            'publie_le' => now()->subDay(),
         ]);
     }
 
@@ -93,9 +93,9 @@ class AjaxInteractionsTest extends TestCase
     {
         $post = $this->makePost();
         $comment = Comment::create([
-            'post_id' => $post->id,
-            'user_id' => $post->user_id,
-            'body' => 'Commentaire parent',
+            'article_id' => $post->id,
+            'utilisateur_id' => $post->utilisateur_id,
+            'contenu' => 'Commentaire parent',
         ]);
 
         $this->actingAs($post->user)->get(route('posts.show', $post->slug));

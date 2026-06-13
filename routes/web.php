@@ -15,7 +15,7 @@ Route::get('/categories/{slug}', [PostController::class, 'byCategory'])->name('c
 // Routes connectés
 Route::middleware('auth')->group(function () {
     Route::get('/dashboard', function () {
-        if (auth()->user()->is_admin) {
+        if (auth()->user()->isAdmin()) {
             return redirect()->route('admin.posts.index');
         }
         return redirect()->route('home');
@@ -43,13 +43,14 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(fun
 Route::get('/__setup/{key}', function (string $key) {
     abort_unless(filled(config('app.setup_key')) && hash_equals((string) config('app.setup_key'), $key), 404);
 
-    Artisan::call('db:seed', [
-        '--class' => 'Database\\Seeders\\FreshContentSeeder',
+    // Reconstruit entièrement le schéma (en français) puis insère le contenu.
+    Artisan::call('migrate:fresh', [
         '--force' => true,
+        '--seed'  => true,
     ]);
 
     return response(
-        "✅ Contenu réinitialisé avec succès.\n\n"
+        "✅ Base de données réinitialisée (schéma en français) et contenu recréé.\n\n"
         . "Admin : combarinahine@gmail.com / password\n\n"
         . "⚠️ IMPORTANT : supprimez maintenant la variable SETUP_KEY dans Railway pour désactiver cette page.",
         200

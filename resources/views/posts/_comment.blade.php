@@ -1,9 +1,9 @@
 <div class="comment-card p-3 p-md-4 mb-3" id="comment-{{ $comment->id }}">
     <div class="d-flex justify-content-between align-items-start mb-2">
         <div class="d-flex gap-3">
-            <div class="avatar">{{ strtoupper(mb_substr($comment->user->name, 0, 1)) }}</div>
+            <div class="avatar">{{ strtoupper(mb_substr($comment->user->nom, 0, 1)) }}</div>
             <div>
-                <strong class="d-block" style="color: var(--ink-900);">{{ $comment->user->name }}</strong>
+                <strong class="d-block" style="color: var(--ink-900);">{{ $comment->user->nom }}</strong>
                 <small class="text-muted">
                     <i class="bi bi-clock"></i> {{ $comment->created_at->diffForHumans() }}
                 </small>
@@ -19,7 +19,7 @@
         @endif
     </div>
 
-    <p class="mb-3 ms-1">{{ $comment->body }}</p>
+    <p class="mb-3 ms-1">{{ $comment->contenu }}</p>
 
     @auth
     <button class="btn btn-sm btn-outline-brand" type="button" onclick="toggleReply({{ $comment->id }})">

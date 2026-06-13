@@ -29,7 +29,7 @@ class AuthenticatedSessionController extends Controller
         $request->session()->regenerate();
 
         // Rediriger les admins vers le panel admin, les autres vers l'accueil
-        if ($request->user()->is_admin) {
+        if ($request->user()->isAdmin()) {
             return redirect()->intended(route('admin.posts.index', absolute: false));
         }
 

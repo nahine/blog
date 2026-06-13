@@ -39,15 +39,15 @@
                     @forelse($posts as $post)
                     <tr>
                         <td>
-                            <img src="{{ $post->image_url }}" alt="{{ $post->title }}" 
+                            <img src="{{ $post->image_url }}" alt="{{ $post->titre }}" 
                                 class="img-thumbnail" style="width: 60px; height: 60px; object-fit: cover;">
                         </td>
                         <td>
-                            <div class="fw-bold">{{ Str::limit($post->title, 50) }}</div>
-                            <small class="text-muted">Par {{ $post->user->name }}</small>
+                            <div class="fw-bold">{{ Str::limit($post->titre, 50) }}</div>
+                            <small class="text-muted">Par {{ $post->user->nom }}</small>
                         </td>
                         <td>
-                            <span class="badge bg-info text-dark">{{ $post->category->name }}</span>
+                            <span class="badge bg-info text-dark">{{ $post->category->nom }}</span>
                         </td>
                         <td class="text-center">
                             <span class="badge bg-danger"><i class="bi bi-heart-fill"></i> {{ $post->likes_count }}</span>

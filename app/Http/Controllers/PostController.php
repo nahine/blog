@@ -33,7 +33,7 @@ class PostController extends Controller {
         
         // Articles similaires (même catégorie)
         $relatedPosts = Post::published()
-            ->where('category_id', $post->category_id)
+            ->where('categorie_id', $post->categorie_id)
             ->where('id', '!=', $post->id)
             ->withCount(['likes', 'comments'])
             ->limit(3)
@@ -45,7 +45,7 @@ class PostController extends Controller {
     public function byCategory(string $slug) {
         $category = Category::where('slug', $slug)->firstOrFail();
         $posts = Post::published()
-            ->where('category_id', $category->id)
+            ->where('categorie_id', $category->id)
             ->with(['user', 'category'])
             ->withCount(['likes', 'comments'])
             ->paginate(12);

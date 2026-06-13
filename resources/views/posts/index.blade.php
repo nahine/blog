@@ -1,5 +1,5 @@
 @extends('layouts.app')
-@section('title', isset($category) ? $category->name : 'Accueil')
+@section('title', isset($category) ? $category->nom : 'Accueil')
 
 @section('content')
 @if(!isset($category))
@@ -30,7 +30,7 @@
 @else
 <div class="mb-4">
     <a href="{{ route('home') }}" class="btn btn-sm btn-outline-brand"><i class="bi bi-arrow-left"></i> Tous les articles</a>
-    <h1 class="fw-bold mt-3 mb-1">{{ $category->name }}</h1>
+    <h1 class="fw-bold mt-3 mb-1">{{ $category->nom }}</h1>
     <p class="text-muted">Articles dans cette catégorie</p>
 </div>
 @endif
@@ -46,11 +46,11 @@
             <a href="{{ route('posts.show', $featuredPost->slug) }}" class="text-decoration-none">
                 <div class="card h-100 hover-lift">
                     <div class="position-relative">
-                        <img src="{{ $featuredPost->image_url }}" class="card-img-top" alt="{{ $featuredPost->title }}" style="height: 200px; object-fit: cover;">
-                        <span class="badge cat-pill position-absolute" style="top:.75rem; left:.75rem;">{{ $featuredPost->category->name }}</span>
+                        <img src="{{ $featuredPost->image_url }}" class="card-img-top" alt="{{ $featuredPost->titre }}" style="height: 200px; object-fit: cover;">
+                        <span class="badge cat-pill position-absolute" style="top:.75rem; left:.75rem;">{{ $featuredPost->category->nom }}</span>
                     </div>
                     <div class="card-body">
-                        <h5 class="card-title" style="color: var(--ink-900);">{{ Str::limit($featuredPost->title, 55) }}</h5>
+                        <h5 class="card-title" style="color: var(--ink-900);">{{ Str::limit($featuredPost->titre, 55) }}</h5>
                         <div class="d-flex gap-3 mt-3">
                             <span class="meta-chip"><i class="bi bi-heart-fill"></i> {{ $featuredPost->likes_count }}</span>
                             <span class="meta-chip"><i class="bi bi-chat-dots"></i> {{ $featuredPost->comments_count }}</span>
@@ -73,26 +73,26 @@
         <article class="card mb-4 hover-lift">
             <div class="row g-0">
                 <div class="col-md-4">
-                    <img src="{{ $post->image_url }}" class="img-fluid h-100 w-100" alt="{{ $post->title }}" style="object-fit: cover; min-height: 200px;">
+                    <img src="{{ $post->image_url }}" class="img-fluid h-100 w-100" alt="{{ $post->titre }}" style="object-fit: cover; min-height: 200px;">
                 </div>
                 <div class="col-md-8">
                     <div class="card-body h-100 d-flex flex-column p-4">
                         <div class="mb-2">
                             <a href="{{ route('categories.show', $post->category->slug) }}" class="badge cat-pill text-decoration-none">
-                                {{ $post->category->name }}
+                                {{ $post->category->nom }}
                             </a>
                         </div>
                         <h4 class="card-title mb-2">
                             <a href="{{ route('posts.show', $post->slug) }}" class="text-decoration-none stretched-link" style="color: var(--ink-900);">
-                                {{ $post->title }}
+                                {{ $post->titre }}
                             </a>
                         </h4>
                         <p class="text-muted small mb-3">
-                            <i class="bi bi-person"></i> {{ $post->user->name }} ·
-                            {{ $post->published_at->format('d M Y') }} ·
+                            <i class="bi bi-person"></i> {{ $post->user->nom }} ·
+                            {{ $post->publie_le->format('d M Y') }} ·
                             {{ $post->reading_time }} min
                         </p>
-                        <p class="card-text flex-grow-1">{{ $post->excerpt }}</p>
+                        <p class="card-text flex-grow-1">{{ $post->extrait }}</p>
                         <div class="d-flex gap-3 mt-auto pt-2">
                             <span class="meta-chip"><i class="bi bi-heart-fill"></i> {{ $post->likes_count }} likes</span>
                             <span class="meta-chip"><i class="bi bi-chat-dots"></i> {{ $post->comments_count }} commentaires</span>
@@ -122,7 +122,7 @@
                         class="d-flex justify-content-between align-items-center text-decoration-none px-3 py-2 rounded-3 {{ isset($category) && $category->id == $cat->id ? 'fw-bold' : '' }}"
                         style="color: var(--ink-700); transition: background .15s;"
                         onmouseover="this.style.background='var(--brand-50)'" onmouseout="this.style.background='transparent'">
-                        <span>{{ $cat->name }}</span>
+                        <span>{{ $cat->nom }}</span>
                         <span class="badge rounded-pill" style="background: var(--brand-100); color: var(--brand-700);">{{ $cat->posts_count }}</span>
                     </a>
                     @endforeach

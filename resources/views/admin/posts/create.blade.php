@@ -60,7 +60,7 @@
                             <option value="">-- Choisir une catégorie --</option>
                             @foreach($categories as $cat)
                                 <option value="{{ $cat->id }}" {{ old('category_id') == $cat->id ? 'selected' : '' }}>
-                                    {{ $cat->name }}
+                                    {{ $cat->nom }}
                                 </option>
                             @endforeach
                         </select>

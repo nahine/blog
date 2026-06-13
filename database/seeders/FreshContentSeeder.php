@@ -25,7 +25,7 @@ class FreshContentSeeder extends Seeder
 
         // 2) Créer l'administrateur (le propriétaire du blog)
         $admin = User::create([
-            'name'     => 'Nahine Combari',
+            'nom'      => 'Nahine Combari',
             'email'    => 'combarinahine@gmail.com',
             'password' => bcrypt('password'),
             'role'     => 'admin',
@@ -40,7 +40,7 @@ class FreshContentSeeder extends Seeder
             'Voyages'     => 'voyages',
             'Cuisine'     => 'cuisine',
         ] as $name => $slug) {
-            $categories[$slug] = Category::firstOrCreate(['slug' => $slug], ['name' => $name]);
+            $categories[$slug] = Category::firstOrCreate(['slug' => $slug], ['nom' => $name]);
         }
 
         // 4) Articles de qualité avec de vraies photos (Unsplash)
@@ -107,14 +107,14 @@ class FreshContentSeeder extends Seeder
 
         foreach ($posts as $i => $data) {
             Post::create([
-                'title'        => $data['title'],
-                'slug'         => Str::slug($data['title']) . '-' . Str::lower(Str::random(6)),
-                'content'      => $data['content'],
-                'excerpt'      => $data['excerpt'],
-                'image'        => $data['image'],
-                'category_id'  => $categories[$data['category']]->id,
-                'user_id'      => $admin->id,
-                'published_at' => now()->subDays(count($posts) - $i),
+                'titre'          => $data['title'],
+                'slug'           => Str::slug($data['title']) . '-' . Str::lower(Str::random(6)),
+                'contenu'        => $data['content'],
+                'extrait'        => $data['excerpt'],
+                'image'          => $data['image'],
+                'categorie_id'   => $categories[$data['category']]->id,
+                'utilisateur_id' => $admin->id,
+                'publie_le'      => now()->subDays(count($posts) - $i),
             ]);
         }
 

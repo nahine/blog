@@ -5,14 +5,16 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 
 class Comment extends Model {
-    protected $fillable = ['post_id', 'user_id', 'parent_id', 'body'];
+    protected $table = 'commentaires';
+
+    protected $fillable = ['article_id', 'utilisateur_id', 'parent_id', 'contenu'];
 
     public function user() {
-        return $this->belongsTo(User::class);
+        return $this->belongsTo(User::class, 'utilisateur_id');
     }
 
     public function post() {
-        return $this->belongsTo(Post::class);
+        return $this->belongsTo(Post::class, 'article_id');
     }
 
     public function replies() {
