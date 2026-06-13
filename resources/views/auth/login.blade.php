@@ -2,21 +2,15 @@
 @section('title', 'Connexion')
 
 @section('content')
-<div class="row justify-content-center">
-    <div class="col-md-5">
-        <div class="card shadow-lg border-0">
-            <div class="card-body p-5">
+<div class="auth-wrap">
+    <div class="col-md-5" style="max-width: 460px;">
+        <div class="card auth-card border-0">
+            <div class="card-body p-4 p-md-5">
                 <div class="text-center mb-4">
-                    <i class="bi bi-person-circle" style="font-size: 4rem; color: #333;"></i>
-                    <h2 class="mt-3 mb-2">Connexion</h2>
+                    <div class="auth-icon mb-3"><i class="bi bi-box-arrow-in-right"></i></div>
+                    <h2 class="mt-2 mb-1">Bon retour !</h2>
                     <p class="text-muted">Connectez-vous à votre compte</p>
                 </div>
-
-                @if (session('status'))
-                    <div class="alert alert-success mb-4" role="alert">
-                        {{ session('status') }}
-                    </div>
-                @endif
 
                 <form method="POST" action="{{ route('login') }}">
                     @csrf
@@ -56,7 +50,7 @@
 
                     <!-- Submit Button -->
                     <div class="d-grid mb-3">
-                        <button type="submit" class="btn btn-dark btn-lg">
+                        <button type="submit" class="btn btn-brand btn-lg">
                             <i class="bi bi-box-arrow-in-right"></i> Se connecter
                         </button>
                     </div>

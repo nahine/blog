@@ -1,260 +1,135 @@
 @extends('layouts.app')
 @section('title', $post->title)
+@section('meta_description', $post->excerpt)
 
 @section('content')
 <div class="row">
     <div class="col-lg-8 mx-auto">
-        <!-- Bouton Retour -->
-        <div class="mb-3">
-            <a href="{{ route('home') }}" class="btn btn-outline-secondary">
+        <div class="mb-4">
+            <a href="{{ route('home') }}" class="btn btn-sm btn-outline-brand">
                 <i class="bi bi-arrow-left"></i> Retour aux articles
             </a>
         </div>
-        
-        <!-- Article Header -->
+
         <article class="mb-5">
             <div class="mb-3">
-                <a href="{{ route('categories.show', $post->category->slug) }}" 
-                    class="badge bg-info text-dark text-decoration-none fs-6">
+                <a href="{{ route('categories.show', $post->category->slug) }}" class="badge cat-pill text-decoration-none">
                     {{ $post->category->name }}
                 </a>
             </div>
-            
-            <h1 class="display-4 fw-bold mb-3">{{ $post->title }}</h1>
-            
-            <div class="d-flex align-items-center gap-3 text-muted mb-4">
-                <span><i class="bi bi-person-circle"></i> {{ $post->user->name }}</span>
-                <span><i class="bi bi-calendar-event"></i> {{ $post->published_at->format('d M Y') }}</span>
-                <span><i class="bi bi-clock"></i> {{ $post->reading_time }} min de lecture</span>
-                <span><i class="bi bi-eye"></i> {{ $post->likes_count }} likes</span>
-                <span><i class="bi bi-chat"></i> {{ $post->comments_count }} commentaires</span>
+
+            <h1 class="fw-bold mb-3" style="font-size: clamp(1.9rem, 4vw, 2.8rem); line-height: 1.15;">{{ $post->title }}</h1>
+
+            <div class="d-flex align-items-center flex-wrap gap-3 mb-4">
+                <span class="meta-chip"><i class="bi bi-person-circle"></i> {{ $post->user->name }}</span>
+                <span class="meta-chip"><i class="bi bi-calendar-event"></i> {{ $post->published_at->format('d M Y') }}</span>
+                <span class="meta-chip"><i class="bi bi-clock"></i> {{ $post->reading_time }} min de lecture</span>
+                <span class="meta-chip"><i class="bi bi-heart-fill"></i> <span data-likes-count>{{ $post->likes_count }}</span> likes</span>
+                <span class="meta-chip"><i class="bi bi-chat-dots"></i> <span data-comments-count>{{ $post->comments_count }}</span> commentaires</span>
             </div>
 
-            <!-- Featured Image -->
-            <img src="{{ $post->image_url }}" alt="{{ $post->title }}" 
-                class="img-fluid rounded shadow-sm mb-4" style="width: 100%; max-height: 500px; object-fit: cover;">
+            <img src="{{ $post->image_url }}" alt="{{ $post->title }}" class="article-hero-img mb-4">
 
-            <!-- Content -->
-            <div class="post-content fs-5 lh-lg mb-5">
+            <div class="post-content mb-5">
                 {!! nl2br(e($post->content)) !!}
             </div>
 
-            <!-- Like Section -->
-            <div class="card bg-light mb-5" id="like-section">
-                <div class="card-body text-center">
-                    @auth
-                    <form method="POST" action="{{ route('posts.like', $post) }}">
-                        @csrf
-                        <button type="submit" class="btn btn-lg {{ $post->isLikedBy(auth()->user()) ? 'btn-danger' : 'btn-outline-danger' }}">
-                            <i class="bi bi-heart-fill"></i>
-                            <span>{{ $post->isLikedBy(auth()->user()) ? 'Vous aimez cet article' : 'J\'aime cet article' }}</span>
-                            <span class="badge bg-white text-dark ms-2">{{ $post->likes_count }}</span>
-                        </button>
-                    </form>
-                    @else
-                    <p class="mb-3">
-                        <i class="bi bi-heart-fill text-danger fs-3"></i>
-                        <span class="fs-4 fw-bold ms-2">{{ $post->likes_count }} personnes aiment cet article</span>
-                    </p>
-                    <a href="{{ route('login') }}" class="btn btn-dark">
-                        Connectez-vous pour aimer cet article
-                    </a>
-                    @endauth
-                </div>
+            <!-- Like -->
+            <div class="like-box p-4 text-center mb-5" id="like-section">
+                @auth
+                <form method="POST" action="{{ route('posts.like', $post) }}" class="like-form m-0">
+                    @csrf
+                    <button type="submit" class="btn btn-like {{ $post->isLikedBy(auth()->user()) ? 'is-liked' : '' }}">
+                        <i class="bi bi-heart-fill"></i>
+                        <span class="like-label">{{ $post->isLikedBy(auth()->user()) ? 'Vous aimez cet article' : "J'aime cet article" }}</span>
+                        <span class="like-count" data-likes-count>{{ $post->likes_count }}</span>
+                    </button>
+                </form>
+                <p class="text-muted small mb-0 mt-3">Un clic suffit — pas besoin de recharger la page.</p>
+                @else
+                <p class="mb-3">
+                    <i class="bi bi-heart-fill" style="color: var(--like); font-size: 1.5rem;"></i>
+                    <span class="fs-5 fw-bold ms-2"><span data-likes-count>{{ $post->likes_count }}</span> personnes aiment cet article</span>
+                </p>
+                <a href="{{ route('login') }}" class="btn btn-brand">
+                    <i class="bi bi-box-arrow-in-right"></i> Connectez-vous pour aimer cet article
+                </a>
+                @endauth
             </div>
         </article>
 
-        <!-- Related Posts -->
+        <!-- Articles similaires -->
         @if(isset($relatedPosts) && $relatedPosts->count() > 0)
         <section class="mb-5">
-            <h3 class="mb-4">Articles similaires</h3>
-            <div class="row">
+            <h3 class="section-title mb-4">Articles similaires</h3>
+            <div class="row g-3">
                 @foreach($relatedPosts as $related)
-                <div class="col-md-4 mb-3">
-                    <div class="card h-100 shadow-sm">
-                        <img src="{{ $related->image_url }}" class="card-img-top" alt="{{ $related->title }}"
-                            style="height: 150px; object-fit: cover;">
-                        <div class="card-body">
-                            <h6 class="card-title">
-                                <a href="{{ route('posts.show', $related->slug) }}" class="text-decoration-none text-dark">
-                                    {{ Str::limit($related->title, 50) }}
-                                </a>
-                            </h6>
-                            <small class="text-muted d-flex gap-2">
-                                <span><i class="bi bi-heart-fill text-danger"></i> {{ $related->likes_count }}</span>
-                                <span><i class="bi bi-chat-fill text-primary"></i> {{ $related->comments_count }}</span>
-                            </small>
+                <div class="col-md-4">
+                    <a href="{{ route('posts.show', $related->slug) }}" class="text-decoration-none">
+                        <div class="card h-100 hover-lift">
+                            <img src="{{ $related->image_url }}" class="card-img-top" alt="{{ $related->title }}" style="height: 150px; object-fit: cover;">
+                            <div class="card-body">
+                                <h6 class="card-title" style="color: var(--ink-900);">{{ Str::limit($related->title, 50) }}</h6>
+                                <div class="d-flex gap-3 mt-2">
+                                    <span class="meta-chip"><i class="bi bi-heart-fill"></i> {{ $related->likes_count }}</span>
+                                    <span class="meta-chip"><i class="bi bi-chat-dots"></i> {{ $related->comments_count }}</span>
+                                </div>
+                            </div>
                         </div>
-                    </div>
+                    </a>
                 </div>
                 @endforeach
             </div>
         </section>
-        <hr class="my-5">
         @endif
 
-        <!-- Comments Section -->
+        <!-- Commentaires -->
         <section class="mb-5" id="comments-section">
-            <h3 class="mb-4">Commentaires ({{ $post->comments_count }})</h3>
+            <h3 class="section-title mb-4">Commentaires (<span data-comments-count>{{ $post->comments_count }}</span>)</h3>
 
-            <!-- Add Comment -->
             @auth
-            <div class="card shadow-sm mb-4">
-                <div class="card-body">
-                    <form method="POST" action="{{ route('comments.store', $post) }}#comments-section">
+            <div class="card mb-4">
+                <div class="card-body p-4">
+                    <form method="POST" action="{{ route('comments.store', $post) }}" id="comment-form">
                         @csrf
-                        <div class="mb-3">
-                            <label class="form-label fw-bold">Laissez votre commentaire</label>
-                            <textarea name="body" class="form-control @error('body') is-invalid @enderror"
-                                rows="4" placeholder="Partagez votre avis..." required minlength="2"></textarea>
-                            @error('body') <div class="invalid-feedback">{{ $message }}</div> @enderror
+                        <label class="form-label">Laissez votre commentaire</label>
+                        <div class="d-flex gap-3">
+                            <div class="avatar d-none d-sm-grid">{{ strtoupper(mb_substr(auth()->user()->name, 0, 1)) }}</div>
+                            <div class="flex-grow-1">
+                                <textarea name="body" class="form-control" rows="3"
+                                    placeholder="Partagez votre avis..." required minlength="2"></textarea>
+                                <div class="text-end mt-2">
+                                    <button type="submit" class="btn btn-brand">
+                                        <i class="bi bi-send"></i> Publier
+                                    </button>
+                                </div>
+                            </div>
                         </div>
-                        <button type="submit" class="btn btn-dark">
-                            <i class="bi bi-send"></i> Publier le commentaire
-                        </button>
                     </form>
                 </div>
             </div>
             @else
-            <div class="alert alert-info">
-                <i class="bi bi-info-circle"></i>
-                <a href="{{ route('login') }}" class="alert-link">Connectez-vous</a> pour laisser un commentaire.
+            <div class="card mb-4">
+                <div class="card-body d-flex align-items-center gap-3 p-4">
+                    <i class="bi bi-info-circle fs-3" style="color: var(--brand-500);"></i>
+                    <span><a href="{{ route('login') }}" class="fw-bold text-decoration-none">Connectez-vous</a> pour rejoindre la discussion.</span>
+                </div>
             </div>
             @endauth
 
-            <!-- Comments List -->
-            @forelse($post->comments as $comment)
-            <div class="card shadow-sm mb-3" id="comment-{{ $comment->id }}">
-                <div class="card-body">
-                    <div class="d-flex justify-content-between align-items-start mb-2">
-                        <div>
-                            <strong class="text-primary">
-                                <i class="bi bi-person-circle"></i> {{ $comment->user->name }}
-                            </strong>
-                            <small class="text-muted d-block">
-                                <i class="bi bi-clock"></i> {{ $comment->created_at->diffForHumans() }}
-                            </small>
-                        </div>
-                        
-                        @if(auth()->check() && auth()->user()->isAdmin())
-                        <form method="POST" action="{{ route('admin.comments.destroy', $comment) }}"
-                            class="d-inline"
-                            onsubmit="return confirm('Supprimer ce commentaire ?')">
-                            @csrf @method('DELETE')
-                            <button class="btn btn-sm btn-outline-danger">
-                                <i class="bi bi-trash"></i>
-                            </button>
-                        </form>
-                        @endif
-                    </div>
-                    
-                    <p class="mb-3">{{ $comment->body }}</p>
-
-                    <!-- Reply Button -->
-                    @auth
-                    <button class="btn btn-sm btn-outline-secondary" 
-                        type="button"
-                        onclick="toggleReply({{ $comment->id }})">
-                        <i class="bi bi-reply"></i> Répondre
-                    </button>
-                    
-                    <div class="mt-3" id="reply-{{ $comment->id }}" style="display: none;">
-                        <form method="POST" action="{{ route('comments.reply', $comment) }}#comment-{{ $comment->id }}">
-                            @csrf
-                            <div class="mb-2">
-                                <textarea name="body" class="form-control" rows="2"
-                                    placeholder="Votre réponse..." required minlength="2"></textarea>
-                            </div>
-                            <div class="d-flex gap-2">
-                                <button type="submit" class="btn btn-sm btn-dark">
-                                    <i class="bi bi-send"></i> Envoyer
-                                </button>
-                                <button type="button" class="btn btn-sm btn-secondary" 
-                                    onclick="toggleReply({{ $comment->id }})">
-                                    Annuler
-                                </button>
-                            </div>
-                        </form>
-                    </div>
-                    @else
-                    <a href="{{ route('login') }}" class="btn btn-sm btn-outline-secondary">
-                        <i class="bi bi-reply"></i> Répondre (Connexion requise)
-                    </a>
-                    @endauth
-
-                    <!-- Replies -->
-                    @if($comment->replies->count() > 0)
-                    <div class="mt-3">
-                        @foreach($comment->replies as $reply)
-                        <div class="card bg-light mb-2">
-                            <div class="card-body py-2">
-                                <div class="d-flex justify-content-between align-items-start">
-                                    <div>
-                                        <strong class="text-success">
-                                            <i class="bi bi-arrow-return-right"></i> {{ $reply->user->name }}
-                                        </strong>
-                                        <small class="text-muted d-block">
-                                            {{ $reply->created_at->diffForHumans() }}
-                                        </small>
-                                    </div>
-                                    
-                                    @if(auth()->check() && auth()->user()->isAdmin())
-                                    <form method="POST" action="{{ route('admin.comments.destroy', $reply) }}"
-                                        class="d-inline"
-                                        onsubmit="return confirm('Supprimer cette réponse ?')">
-                                        @csrf @method('DELETE')
-                                        <button class="btn btn-sm btn-outline-danger">
-                                            <i class="bi bi-trash"></i>
-                                        </button>
-                                    </form>
-                                    @endif
-                                </div>
-                                <p class="mb-0 mt-2">{{ $reply->body }}</p>
-                            </div>
-                        </div>
-                        @endforeach
-                    </div>
-                    @endif
-                </div>
+            <div id="comments-list">
+                @foreach($post->comments as $comment)
+                    @include('posts._comment', ['comment' => $comment])
+                @endforeach
             </div>
-            @empty
-            <div class="text-center py-5">
-                <i class="bi bi-chat-quote" style="font-size: 3rem; color: #dee2e6;"></i>
-                <p class="text-muted mt-3">Aucun commentaire pour le moment. Soyez le premier !</p>
+
+            @if($post->comments->isEmpty())
+            <div class="text-center py-5 empty-state" id="comments-empty">
+                <i class="bi bi-chat-quote"></i>
+                <p class="mt-3">Aucun commentaire pour le moment. Soyez le premier !</p>
             </div>
-            @endforelse
+            @endif
         </section>
     </div>
 </div>
-
-<style>
-.post-content {
-    line-height: 1.8;
-    color: #333;
-}
-.post-content p {
-    margin-bottom: 1.5rem;
-}
-/* Ajustement pour les ancres pour compenser la navbar sticky */
-#like-section {
-    scroll-margin-top: 20px;
-}
-#comments-section {
-    scroll-margin-top: 20px;
-}
-</style>
-
-<script>
-function toggleReply(commentId) {
-    const replyForm = document.getElementById('reply-' + commentId);
-    if (replyForm.style.display === 'none') {
-        replyForm.style.display = 'block';
-        setTimeout(() => {
-            replyForm.querySelector('textarea').focus();
-        }, 100);
-    } else {
-        replyForm.style.display = 'none';
-    }
-}
-</script>
 @endsection

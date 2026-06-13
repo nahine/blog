@@ -2,14 +2,14 @@
 @section('title', 'Inscription')
 
 @section('content')
-<div class="row justify-content-center">
-    <div class="col-md-6">
-        <div class="card shadow-lg border-0">
-            <div class="card-body p-5">
+<div class="auth-wrap">
+    <div class="col-md-6" style="max-width: 520px;">
+        <div class="card auth-card border-0">
+            <div class="card-body p-4 p-md-5">
                 <div class="text-center mb-4">
-                    <i class="bi bi-person-plus-fill" style="font-size: 4rem; color: #333;"></i>
-                    <h2 class="mt-3 mb-2">Inscription</h2>
-                    <p class="text-muted">Créez votre compte gratuitement</p>
+                    <div class="auth-icon mb-3"><i class="bi bi-person-plus"></i></div>
+                    <h2 class="mt-2 mb-1">Créer un compte</h2>
+                    <p class="text-muted">Rejoignez la communauté gratuitement</p>
                 </div>
 
                 <form method="POST" action="{{ route('register') }}">
@@ -64,7 +64,7 @@
 
                     <!-- Submit Button -->
                     <div class="d-grid mb-3">
-                        <button type="submit" class="btn btn-dark btn-lg">
+                        <button type="submit" class="btn btn-brand btn-lg">
                             <i class="bi bi-person-plus"></i> Créer mon compte
                         </button>
                     </div>
