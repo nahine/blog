@@ -89,8 +89,7 @@
                         </h4>
                         <p class="text-muted small mb-3">
                             <i class="bi bi-person"></i> {{ $post->user->nom }} ·
-                            {{ $post->publie_le->format('d M Y') }} ·
-                            {{ $post->reading_time }} min
+                            <i class="bi bi-calendar3"></i> {{ $post->publie_le->translatedFormat('j F Y') }}
                         </p>
                         <p class="card-text flex-grow-1">{{ $post->extrait }}</p>
                         <div class="d-flex gap-3 mt-auto pt-2">

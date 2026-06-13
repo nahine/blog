@@ -65,8 +65,14 @@ class Post extends Model {
     }
 
     public function getReadingTimeAttribute(): int {
-        $words = str_word_count(strip_tags($this->contenu));
-        return max(1, ceil($words / 200)); // 200 mots par minute
+        $text = trim(preg_replace('/\s+/u', ' ', strip_tags((string) $this->contenu)));
+        if ($text === '') {
+            return 1;
+        }
+
+        $words = count(preg_split('/\s+/u', $text, -1, PREG_SPLIT_NO_EMPTY));
+
+        return max(1, (int) ceil($words / 200));
     }
 
     public function getExtraitAttribute($value): string {

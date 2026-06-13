@@ -22,7 +22,7 @@
 
             <div class="d-flex align-items-center flex-wrap gap-3 mb-4">
                 <span class="meta-chip"><i class="bi bi-person-circle"></i> {{ $post->user->nom }}</span>
-                <span class="meta-chip"><i class="bi bi-calendar-event"></i> {{ $post->publie_le->format('d M Y') }}</span>
+                <span class="meta-chip"><i class="bi bi-calendar-event"></i> {{ $post->publie_le->translatedFormat('j F Y') }}</span>
                 <span class="meta-chip"><i class="bi bi-clock"></i> {{ $post->reading_time }} min de lecture</span>
                 <span class="meta-chip"><i class="bi bi-heart-fill"></i> <span data-likes-count>{{ $post->likes_count }}</span> likes</span>
                 <span class="meta-chip"><i class="bi bi-chat-dots"></i> <span data-comments-count>{{ $post->comments_count }}</span> commentaires</span>

@@ -115,7 +115,7 @@ class FreshContentSeeder extends Seeder
                 'image'          => $data['image'],
                 'categorie_id'   => $categories[$data['category']]->id,
                 'utilisateur_id' => $admin->id,
-                'publie_le'      => now()->subDays(count($posts) - $i),
+                'publie_le'      => now()->subMonths(count($posts) - $i)->subDays($i * 3),
             ]);
         }
 
