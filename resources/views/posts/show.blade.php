@@ -45,7 +45,6 @@
                         <span class="like-count" data-likes-count>{{ $post->likes_count }}</span>
                     </button>
                 </form>
-                <p class="text-muted small mb-0 mt-3">Un clic suffit — pas besoin de recharger la page.</p>
                 @else
                 <p class="mb-3">
                     <i class="bi bi-heart-fill" style="color: var(--like); font-size: 1.5rem;"></i>
