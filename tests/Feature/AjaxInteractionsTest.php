@@ -20,6 +20,7 @@ class AjaxInteractionsTest extends TestCase
             'email' => 'test@example.com',
             'password' => 'password',
             'role' => 'user',
+            'email_verified_at' => now(),
         ]);
 
         $category = Category::create(['nom' => 'Tech', 'slug' => 'tech']);

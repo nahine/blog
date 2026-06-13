@@ -21,9 +21,12 @@ Route::middleware('auth')->group(function () {
         return redirect()->route('home');
     })->name('dashboard');
     
-    Route::post('/posts/{post}/like', [LikeController::class, 'toggle'])->name('posts.like');
-    Route::post('/posts/{post}/comments', [CommentController::class, 'store'])->name('comments.store');
-    Route::post('/comments/{comment}/reply', [CommentController::class, 'reply'])->name('comments.reply');
+    // Interagir (aimer / commenter) exige un email vérifié.
+    Route::middleware('verified')->group(function () {
+        Route::post('/posts/{post}/like', [LikeController::class, 'toggle'])->name('posts.like');
+        Route::post('/posts/{post}/comments', [CommentController::class, 'store'])->name('comments.store');
+        Route::post('/comments/{comment}/reply', [CommentController::class, 'reply'])->name('comments.reply');
+    });
 });
 
 // Routes admin

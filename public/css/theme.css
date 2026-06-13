@@ -290,6 +290,23 @@ a:hover { color: var(--brand-700); }
 }
 .form-label { font-weight: 600; color: var(--ink-900); }
 
+/* ---------- Champ mot de passe avec œil ---------- */
+.pwd-wrap { position: relative; }
+.pwd-wrap input { padding-right: 3rem; }
+.pwd-toggle {
+    position: absolute;
+    top: 50%; right: .6rem;
+    transform: translateY(-50%);
+    border: none; background: transparent;
+    color: var(--ink-500);
+    width: 2.1rem; height: 2.1rem;
+    display: grid; place-items: center;
+    border-radius: 50%;
+    cursor: pointer;
+    transition: color .15s ease, background .15s ease;
+}
+.pwd-toggle:hover { color: var(--brand-600); background: var(--brand-50); }
+
 /* ---------- Auth card ---------- */
 .auth-wrap { min-height: calc(100vh - 220px); display: grid; place-items: center; }
 .auth-card {

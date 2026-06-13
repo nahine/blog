@@ -44,22 +44,32 @@
                     <!-- Password -->
                     <div class="mb-3">
                         <label for="password" class="form-label">Mot de passe</label>
-                        <input id="password" type="password" 
-                            class="form-control form-control-lg @error('password') is-invalid @enderror" 
-                            name="password" required autocomplete="new-password"
-                            placeholder="Minimum 8 caractères">
-                        @error('password')
-                            <div class="invalid-feedback">{{ $message }}</div>
-                        @enderror
+                        <div class="pwd-wrap">
+                            <input id="password" type="password"
+                                class="form-control form-control-lg @error('password') is-invalid @enderror"
+                                name="password" required autocomplete="new-password"
+                                placeholder="Minimum 8 caractères">
+                            <button type="button" class="pwd-toggle" aria-label="Afficher le mot de passe">
+                                <i class="bi bi-eye"></i>
+                            </button>
+                            @error('password')
+                                <div class="invalid-feedback">{{ $message }}</div>
+                            @enderror
+                        </div>
                     </div>
 
                     <!-- Confirm Password -->
                     <div class="mb-4">
                         <label for="password_confirmation" class="form-label">Confirmer le mot de passe</label>
-                        <input id="password_confirmation" type="password" 
-                            class="form-control form-control-lg" 
-                            name="password_confirmation" required autocomplete="new-password"
-                            placeholder="Retapez votre mot de passe">
+                        <div class="pwd-wrap">
+                            <input id="password_confirmation" type="password"
+                                class="form-control form-control-lg"
+                                name="password_confirmation" required autocomplete="new-password"
+                                placeholder="Retapez votre mot de passe">
+                            <button type="button" class="pwd-toggle" aria-label="Afficher le mot de passe">
+                                <i class="bi bi-eye"></i>
+                            </button>
+                        </div>
                     </div>
 
                     <!-- Submit Button -->

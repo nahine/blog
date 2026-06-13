@@ -46,6 +46,7 @@ class RegisteredUserController extends Controller
 
         Auth::login($user);
 
-        return redirect(route('dashboard', absolute: false));
+        // L'utilisateur doit confirmer son email avant d'accéder au tableau de bord.
+        return redirect()->route('verification.notice');
     }
 }

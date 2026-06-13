@@ -45,7 +45,8 @@
             body: JSON.stringify(body || {}),
         });
         if (res.status === 419) throw new Error('Session expirée, veuillez recharger la page.');
-        if (res.status === 401 || res.status === 403) throw new Error('Vous devez être connecté.');
+        if (res.status === 401) throw new Error('Vous devez être connecté pour effectuer cette action.');
+        if (res.status === 403) throw new Error('Vous devez confirmer votre adresse email pour interagir.');
         const data = await res.json().catch(() => ({}));
         if (!res.ok || data.success === false) {
             const msg = data.message || (data.errors ? Object.values(data.errors)[0][0] : 'Une erreur est survenue.');
@@ -139,6 +140,19 @@
                 btn.disabled = false;
             }
         });
+    });
+
+    /* ---------- Afficher / masquer le mot de passe ---------- */
+    document.addEventListener('click', function (e) {
+        const btn = e.target.closest('.pwd-toggle');
+        if (!btn) return;
+        const input = btn.closest('.pwd-wrap')?.querySelector('input');
+        if (!input) return;
+        const show = input.type === 'password';
+        input.type = show ? 'text' : 'password';
+        const icon = btn.querySelector('i');
+        if (icon) icon.className = show ? 'bi bi-eye-slash' : 'bi bi-eye';
+        btn.setAttribute('aria-label', show ? 'Masquer le mot de passe' : 'Afficher le mot de passe');
     });
 
     /* ---------- Toggle formulaire de réponse ---------- */

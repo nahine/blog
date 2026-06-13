@@ -25,10 +25,11 @@ class FreshContentSeeder extends Seeder
 
         // 2) Créer l'administrateur (le propriétaire du blog)
         $admin = User::create([
-            'nom'      => 'Nahine Combari',
-            'email'    => 'combarinahine@gmail.com',
-            'password' => bcrypt('password'),
-            'role'     => 'admin',
+            'nom'               => 'Nahine Combari',
+            'email'             => 'combarinahine@gmail.com',
+            'password'          => bcrypt('password'),
+            'role'              => 'admin',
+            'email_verified_at' => now(),
         ]);
 
         // 3) Catégories (créées si elles n'existent pas déjà)

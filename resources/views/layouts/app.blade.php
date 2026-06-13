@@ -70,6 +70,20 @@
     </div>
 </nav>
 
+@auth
+    @if (auth()->user() instanceof \Illuminate\Contracts\Auth\MustVerifyEmail && ! auth()->user()->hasVerifiedEmail())
+        <div class="container mt-3">
+            <div class="alert alert-warning d-flex flex-wrap align-items-center justify-content-between gap-2 mb-0" role="alert">
+                <span><i class="bi bi-envelope-exclamation"></i> Votre adresse email n'est pas encore confirmée. Vérifiez votre boîte mail pour pouvoir aimer et commenter.</span>
+                <form method="POST" action="{{ route('verification.send') }}" class="m-0">
+                    @csrf
+                    <button type="submit" class="btn btn-sm btn-warning">Renvoyer l'email</button>
+                </form>
+            </div>
+        </div>
+    @endif
+@endauth
+
 <main class="container my-4 my-md-5">
     @yield('content')
 </main>
